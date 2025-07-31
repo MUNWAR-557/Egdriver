@@ -97,7 +97,7 @@ function AiSuggestions() {
             <Card key={task.taskId} className="bg-secondary">
               <CardHeader>
                 <CardTitle className="text-base">Deliver to: {task.deliveryAddress}</CardTitle>
-                <CardDescription>Estimated Earnings: <span className="font-bold text-primary">${task.estimatedEarnings.toFixed(2)}</span></CardDescription>
+                <CardDescription>Estimated Earnings: <span className="font-bold text-primary">₹{task.estimatedEarnings.toFixed(2)}</span></CardDescription>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
                 <p>Pickup: {task.pickupLocation.latitude}, {task.pickupLocation.longitude}</p>
@@ -177,7 +177,7 @@ export default function TasksPage() {
               <CardFooter className="flex flex-col items-stretch">
                 <div className="text-center mb-4">
                   <p className="text-sm text-muted-foreground">Estimated Earnings</p>
-                  <p className="text-2xl font-bold text-primary">${task.estimatedEarnings.toFixed(2)}</p>
+                  <p className="text-2xl font-bold text-primary">₹{task.estimatedEarnings.toFixed(2)}</p>
                 </div>
                 {nextAction && (
                   <Button onClick={() => handleStatusUpdate(task.id, nextAction.nextStatus)}>
