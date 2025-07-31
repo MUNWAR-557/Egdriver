@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -28,6 +29,8 @@ import {
   UserCircle,
   Zap,
 } from 'lucide-react';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { SheetTitle } from '@/components/ui/sheet';
 
 export default function MainLayout({
   children,
@@ -98,17 +101,19 @@ export default function MainLayout({
           </SidebarFooter>
         </Sidebar>
         <SidebarInset className="bg-background">
-          <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-gradient-to-b from-yellow-100 to-background px-4 sm:px-6">
-            <SidebarTrigger className="md:hidden" />
-            <div className="flex-1">
-              <Link href="/dashboard" className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-white">
-                  <Zap className="h-5 w-5" />
-                </div>
-                <span className="font-headline text-xl font-bold text-green-700">
-                  EGCART
-                </span>
-              </Link>
+          <header className="sticky top-0 z-10 border-b bg-gradient-to-b from-yellow-100 to-background">
+            <div className="flex h-14 items-center gap-4 px-4 sm:px-6">
+              <SidebarTrigger className="md:hidden" />
+              <div className="flex-1">
+                <Link href="/dashboard" className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                    <Zap className="h-5 w-5" />
+                  </div>
+                  <span className="font-headline text-xl font-bold text-primary">
+                    EGdriver
+                  </span>
+                </Link>
+              </div>
             </div>
           </header>
           <main className="flex-1 overflow-auto p-4 sm:p-6">{children}</main>
