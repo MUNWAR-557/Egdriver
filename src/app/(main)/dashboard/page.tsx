@@ -117,7 +117,7 @@ export default function DashboardPage() {
                     <TableCell className="font-medium">{delivery.id}</TableCell>
                     <TableCell>{delivery.date}</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="text-accent-foreground border-accent">{delivery.status}</Badge>
+                      <Badge variant="outline">{delivery.status}</Badge>
                     </TableCell>
                     <TableCell className="text-right">${delivery.earnings.toFixed(2)}</TableCell>
                   </TableRow>
