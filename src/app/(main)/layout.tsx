@@ -99,7 +99,7 @@ export default function MainLayout({
           </SidebarFooter>
         </Sidebar>
         <SidebarInset className="bg-background">
-          <header className="sticky top-0 z-10 border-b bg-gradient-to-b from-yellow-100 to-background">
+          <header className="sticky top-0 z-10 border-b bg-background">
             <div className="flex h-14 items-center gap-4 px-4 sm:px-6">
               <SidebarTrigger className="md:hidden" />
               <div className="flex-1">
