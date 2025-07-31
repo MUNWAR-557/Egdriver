@@ -11,8 +11,14 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { QrScanner } from '@/components/ui/qr-scanner';
 import { QrCode } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const QrScanner = dynamic(() => import('@/components/ui/qr-scanner').then(m => m.QrScanner), {
+  ssr: false,
+  loading: () => <div className="w-full aspect-video rounded-md bg-muted flex items-center justify-center"><p>Loading Scanner...</p></div>
+});
+
 
 interface ScanQrDialogProps {
   taskId: string;
