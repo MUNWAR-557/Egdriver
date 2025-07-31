@@ -5,7 +5,7 @@ import type { Task, TaskStatus } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, MapPin, Package, Truck, CheckCircle2, Bot, CircleDotDashed, Loader2, QrCode, ShieldCheck } from 'lucide-react';
+import { Clock, MapPin, Package, Truck, CheckCircle2, Bot, CircleDotDashed, Loader2, QrCode, ShieldCheck, KeyRound } from 'lucide-react';
 import Image from 'next/image';
 import {
   Dialog,
@@ -20,6 +20,8 @@ import { suggestTaskNotifications, SuggestTaskNotificationsOutput } from '@/ai/f
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { QrScanner } from '@/components/ui/qr-scanner';
 import { useToast } from '@/hooks/use-toast';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const initialTasks: Task[] = [
   { id: 'TSK001', pickupLocation: '123 Main St, Gourmet Plaza', deliveryAddress: '456 Oak Ave, Apt 7B', orderItems: '2x Pepperoni Pizza, 1x Coke', deliveryTimeframe: '6:30 PM - 7:00 PM', status: 'Available', estimatedEarnings: 12.50 },
@@ -41,7 +43,7 @@ function TaskStatusBadge({ status }: { status: TaskStatus }) {
   const currentVariant = variants[status];
   
   return (
-    <Badge variant={currentVariant.variant} className={`flex items-center gap-1.5 ${status === 'Delivered' ? 'bg-accent text-accent-foreground hover:bg-accent/90' : ''} ${status === 'Picked Up' ? 'bg-blue-500 text-white hover:bg-blue-600' : ''}`}>
+    <Badge variant={currentVariant.variant} className={`flex items-center gap-1.5 ${status === 'Delivered' ? 'bg-green-500 text-white hover:bg-green-600' : ''} ${status === 'Picked Up' ? 'bg-blue-500 text-white hover:bg-blue-600' : ''}`}>
       {currentVariant.icon}
       <span>{currentVariant.text}</span>
     </Badge>
@@ -149,6 +151,73 @@ function ScanQrDialog({ taskId, onScanSuccess }: { taskId: string, onScanSuccess
   );
 }
 
+function CompleteDeliveryDialog({ taskId, onOtpVerified }: { taskId: string; onOtpVerified: () => void }) {
+  const [otp, setOtp] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+  const { toast } = useToast();
+
+  const handleVerify = () => {
+    setIsVerifying(true);
+    // Simulate API call for OTP verification
+    setTimeout(() => {
+      // For demo, any 6-digit code is valid
+      if (otp.length === 6 && /^\d+$/.test(otp)) {
+        toast({
+          title: 'OTP Verified!',
+          description: `Delivery for task ${taskId} is complete.`,
+        });
+        onOtpVerified();
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Invalid OTP',
+          description: 'Please enter the 6-digit OTP sent to the customer.',
+        });
+      }
+      setIsVerifying(false);
+    }, 1000);
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>
+          <CheckCircle2 className="mr-2 h-4 w-4" />
+          Complete Delivery
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Complete Delivery for {taskId}</DialogTitle>
+          <DialogDescription>
+            Please enter the 6-digit OTP from the customer to finalize this delivery.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4 py-4">
+            <div className="space-y-2">
+                <Label htmlFor="otp">Customer OTP</Label>
+                <Input 
+                    id="otp" 
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    maxLength={6}
+                    placeholder="Enter 6-digit code"
+                />
+            </div>
+            <Button onClick={handleVerify} disabled={isVerifying} className="w-full">
+                {isVerifying ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                    <KeyRound className="mr-2 h-4 w-4" />
+                )}
+                {isVerifying ? 'Verifying...' : 'Verify & Complete'}
+            </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 
 export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
@@ -166,7 +235,16 @@ export default function TasksPage() {
     handleStatusUpdate(taskId, 'Picked Up');
     toast({
         title: 'Pickup Confirmed!',
-        description: `Task ${taskId} has been marked as "Picked Up".`,
+        description: `Task ${taskId} is now "Picked Up". Ready to roll!`,
+    });
+  };
+  
+  const handleDeliveryComplete = (taskId: string, earnings: number) => {
+    handleStatusUpdate(taskId, 'Delivered');
+    toast({
+        title: 'Delivery Complete!',
+        description: `Task ${taskId} is finished. You've earned ₹${earnings.toFixed(2)}.`,
+        className: 'bg-green-500 text-white'
     });
   };
 
@@ -177,11 +255,15 @@ export default function TasksPage() {
       case 'Accepted':
         return <ScanQrDialog taskId={task.id} onScanSuccess={() => handlePickup(task.id)} />;
       case 'Picked Up':
-        return <Button onClick={() => handleStatusUpdate(task.id, 'En Route')}>Start Driving</Button>;
+        return <Button onClick={() => handleStatusUpdate(task.id, 'En Route')}>
+          <Truck className="mr-2" /> Start Driving
+        </Button>;
       case 'En Route':
-        return <Button onClick={() => handleStatusUpdate(task.id, 'Arrived')}>Arrived at Destination</Button>;
+        return <Button onClick={() => handleStatusUpdate(task.id, 'Arrived')}>
+          <MapPin className="mr-2" /> Arrived at Destination
+        </Button>;
       case 'Arrived':
-        return <Button onClick={() => handleStatusUpdate(task.id, 'Delivered')}>Complete Delivery</Button>;
+        return <CompleteDeliveryDialog taskId={task.id} onOtpVerified={() => handleDeliveryComplete(task.id, task.estimatedEarnings)} />;
       default:
         return null;
     }
