@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -77,4 +78,47 @@ export async function updateProfile(
     message: 'Profile updated successfully!',
     success: true,
   };
+}
+
+
+const signupSchema = z.object({
+  fullName: z.string().min(2, 'Full name is required'),
+  email: z.string().email('A valid email is required'),
+  phone: z.string().regex(/^\d{10}$/, 'A valid 10-digit phone number is required'),
+  password: z.string().min(8, 'Password must be at least 8 characters long'),
+  drivingLicense: z.any().refine(file => file instanceof File && file.size > 0, 'Driving license image is required'),
+  aadharNumber: z.string().regex(/^\d{12}$/, 'A valid 12-digit Aadhar number is required'),
+  profilePhoto: z.any().refine(file => file instanceof File && file.size > 0, 'Your photo is required'),
+});
+
+
+export type SignupFormState = {
+  message: string;
+  errors?: z.ZodError<z.infer<typeof signupSchema>>['formErrors']['fieldErrors'];
+  success: boolean;
+}
+
+export async function signup(prevState: SignupFormState, formData: FormData) : Promise<SignupFormState> {
+    const validatedFields = signupSchema.safeParse(Object.fromEntries(formData.entries()));
+
+    if (!validatedFields.success) {
+        return {
+            message: "Validation failed. Please check your inputs.",
+            errors: validatedFields.error.flatten().fieldErrors,
+            success: false
+        }
+    }
+
+    // Handle file uploads here (e.g., to Firebase Storage)
+    const { profilePhoto, drivingLicense, ...userData } = validatedFields.data;
+
+    console.log("Registering user:", userData);
+    console.log("Uploading profile photo:", profilePhoto.name);
+    console.log("Uploading driving license:", drivingLicense.name);
+
+    // Simulate user creation and file upload
+    return {
+        message: "Registration successful! Your application is under review.",
+        success: true
+    }
 }
