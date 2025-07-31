@@ -98,12 +98,17 @@ export default function MainLayout({
           </SidebarFooter>
         </Sidebar>
         <SidebarInset className="bg-background">
-          <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
+          <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-gradient-to-b from-yellow-100 to-background px-4 sm:px-6">
             <SidebarTrigger className="md:hidden" />
             <div className="flex-1">
-              <h1 className="font-headline text-xl font-semibold">
-                {menuItems.find(item => pathname.startsWith(item.href))?.label || 'EGdriver'}
-              </h1>
+              <Link href="/dashboard" className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-white">
+                  <Zap className="h-5 w-5" />
+                </div>
+                <span className="font-headline text-xl font-bold text-green-700">
+                  EGCART
+                </span>
+              </Link>
             </div>
           </header>
           <main className="flex-1 overflow-auto p-4 sm:p-6">{children}</main>
