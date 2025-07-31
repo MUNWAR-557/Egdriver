@@ -24,6 +24,7 @@ import {
   BarChartBig,
   LayoutGrid,
   LifeBuoy,
+  Settings,
   UserCircle,
   Zap,
 } from 'lucide-react';
@@ -39,6 +40,7 @@ export default function MainLayout({
     { href: '/dashboard', label: 'Dashboard', icon: BarChartBig },
     { href: '/tasks', label: 'Tasks', icon: LayoutGrid },
     { href: '/profile', label: 'Profile', icon: UserCircle },
+    { href: '/settings', label: 'Settings', icon: Settings },
     { href: '/support', label: 'Support', icon: LifeBuoy },
   ];
 
@@ -62,7 +64,7 @@ export default function MainLayout({
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton
                     asChild
-                    isActive={pathname === item.href}
+                    isActive={pathname.startsWith(item.href)}
                     tooltip={{
                       children: item.label,
                       side: 'right',
@@ -100,7 +102,7 @@ export default function MainLayout({
             <SidebarTrigger className="md:hidden" />
             <div className="flex-1">
               <h1 className="font-headline text-xl font-semibold">
-                {menuItems.find(item => item.href === pathname)?.label || 'EGdriver'}
+                {menuItems.find(item => pathname.startsWith(item.href))?.label || 'EGdriver'}
               </h1>
             </div>
           </header>
