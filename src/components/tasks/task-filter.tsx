@@ -12,7 +12,6 @@ const statuses: (TaskStatus | 'All')[] = [
   'Available',
   'Accepted',
   'Picked Up',
-  'En Route',
   'Arrived',
   'Delivered',
 ];
