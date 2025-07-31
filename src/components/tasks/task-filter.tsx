@@ -38,7 +38,7 @@ export function TaskFilter({
   };
 
   return (
-    <div className="flex w-full items-center justify-between gap-4">
+    <div className="flex w-full flex-col items-center justify-between gap-4 md:flex-row">
       <div className="relative w-full max-w-sm">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
@@ -47,15 +47,15 @@ export function TaskFilter({
           onChange={(e) => onSearchChange(e.target.value)}
         />
       </div>
-      <div className="flex items-center gap-2 rounded-md bg-muted p-1">
+      <div className="flex flex-wrap items-center gap-2 rounded-md bg-muted p-1">
         {statuses.map((status) => (
           <Button
             key={status}
-            variant={activeStatus === status ? 'default' : 'ghost'}
+            variant="ghost"
             className={cn(
               'h-8 px-3 text-sm',
               activeStatus === status
-                ? 'bg-background text-foreground shadow-sm'
+                ? 'bg-background text-foreground shadow-sm hover:bg-background'
                 : 'hover:bg-background/50'
             )}
             onClick={() => handleStatusClick(status)}
