@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Html5Qrcode, Html5QrcodeScannerState } from 'html5-qrcode';
+import { Html5Qrcode } from 'html5-qrcode';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { QrCode } from 'lucide-react';
@@ -40,17 +40,6 @@ export function QrScanner({ onScanSuccess, expectedValue }: QrScannerProps) {
   }, [toast]);
   
   useEffect(() => {
-    if (hasCameraPermission) {
-        scannerRef.current = new Html5Qrcode('qr-reader-container');
-        startScanner();
-    }
-    
-    const stopScanner = () => {
-      if (scannerRef.current && scannerRef.current.isScanning) {
-        scannerRef.current.stop().catch(err => console.error("Failed to stop scanner", err));
-      }
-    };
-
     const startScanner = () => {
         if (scannerRef.current && !scannerRef.current.isScanning) {
             scannerRef.current.start(
@@ -83,6 +72,17 @@ export function QrScanner({ onScanSuccess, expectedValue }: QrScannerProps) {
             });
         }
     }
+
+    if (hasCameraPermission) {
+        scannerRef.current = new Html5Qrcode('qr-reader-container');
+        startScanner();
+    }
+    
+    const stopScanner = () => {
+      if (scannerRef.current && scannerRef.current.isScanning) {
+        scannerRef.current.stop().catch(err => console.error("Failed to stop scanner", err));
+      }
+    };
 
     return () => {
       stopScanner();
