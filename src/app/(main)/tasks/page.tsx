@@ -121,7 +121,7 @@ export default function TasksPage() {
   return (
     <div className="container mx-auto">
       <div className="flex flex-col gap-4 mb-6">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
             <h2 className="text-2xl font-bold tracking-tight">Your Tasks</h2>
             <AiSuggestions />
         </div>
