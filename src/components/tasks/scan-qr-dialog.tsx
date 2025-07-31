@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -22,9 +23,9 @@ export function ScanQrDialog({ taskId, onScanSuccess }: ScanQrDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
+        <Button size="sm">
           <QrCode className="mr-2 h-4 w-4" />
-          Scan &amp; Start Delivery
+          Scan & Start
         </Button>
       </DialogTrigger>
       <DialogContent>

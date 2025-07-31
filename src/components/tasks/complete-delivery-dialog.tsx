@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -53,7 +54,7 @@ export function CompleteDeliveryDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
+        <Button size="sm">
           <CheckCircle2 className="mr-2 h-4 w-4" />
           Complete Delivery
         </Button>

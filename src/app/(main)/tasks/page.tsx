@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -64,7 +65,7 @@ export default function TasksPage() {
     switch (task.status) {
       case 'Available':
         return (
-          <Button onClick={() => handleStatusUpdate(task.id, 'Accepted')}>
+          <Button onClick={() => handleStatusUpdate(task.id, 'Accepted')} size="sm">
             Accept Task
           </Button>
         );
@@ -77,14 +78,14 @@ export default function TasksPage() {
         );
       case 'Picked Up':
         return (
-          <Button onClick={() => handleStatusUpdate(task.id, 'En Route')}>
-            <Truck className="mr-2" /> Start Driving
+          <Button onClick={() => handleStatusUpdate(task.id, 'En Route')} size="sm">
+            <Truck className="mr-2 h-4 w-4" /> Start Driving
           </Button>
         );
       case 'En Route':
         return (
-          <Button onClick={() => handleStatusUpdate(task.id, 'Arrived')}>
-            <MapPin className="mr-2" /> Arrived at Destination
+          <Button onClick={() => handleStatusUpdate(task.id, 'Arrived')} size="sm">
+            <MapPin className="mr-2 h-4 w-4" /> Arrived
           </Button>
         );
       case 'Arrived':
@@ -127,56 +128,56 @@ export default function TasksPage() {
         <TaskFilter onStatusChange={setFilterStatus} onSearchChange={setSearchQuery} />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         {filteredTasks.length > 0 ? (
           filteredTasks.map((task) => {
             return (
-              <Card key={task.id} className="flex flex-col">
-                <CardHeader>
+              <Card key={task.id} className="flex flex-col text-sm">
+                <CardHeader className="p-3">
                   <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg">{task.id}</CardTitle>
+                    <CardTitle className="text-base">{task.id}</CardTitle>
                     <TaskStatusBadge status={task.status} />
                   </div>
-                  <CardDescription>{task.deliveryAddress}</CardDescription>
+                  <CardDescription className="text-xs">{task.deliveryAddress}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow space-y-4">
-                  <div className="space-y-2 text-sm text-muted-foreground">
+                <CardContent className="flex-grow space-y-2 p-3 pt-0">
+                  <div className="space-y-1 text-xs text-muted-foreground">
                     <div className="flex items-start gap-2">
-                      <MapPin className="h-4 w-4 mt-0.5 text-primary" />
+                      <MapPin className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
                       <span>
                         <strong>From:</strong> {task.pickupLocation}
                       </span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Package className="h-4 w-4 mt-0.5 text-primary" />
+                      <Package className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
                       <span>
                         <strong>Items:</strong> {task.orderItems}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-primary" />
+                      <Clock className="h-3 w-3 text-primary flex-shrink-0" />
                       <span>
                         <strong>Time:</strong> {task.deliveryTimeframe}
                       </span>
                     </div>
                   </div>
-                  <div className="rounded-lg overflow-hidden border">
+                  <div className="rounded-md overflow-hidden border">
                     <Image
-                      src="https://placehold.co/400x200.png"
+                      src="https://placehold.co/400x150.png"
                       width={400}
-                      height={200}
+                      height={150}
                       alt="Route map"
                       data-ai-hint="route map"
                       className="w-full object-cover"
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="flex flex-col items-stretch">
-                  <div className="text-center mb-4">
-                    <p className="text-sm text-muted-foreground">
-                      Estimated Earnings
+                <CardFooter className="flex flex-col items-stretch p-3 pt-0">
+                  <div className="text-center mb-2">
+                    <p className="text-xs text-muted-foreground">
+                      Earnings
                     </p>
-                    <p className="text-2xl font-bold text-primary">
+                    <p className="text-lg font-bold text-primary">
                       ₹{task.estimatedEarnings.toFixed(2)}
                     </p>
                   </div>
