@@ -29,8 +29,6 @@ import {
   UserCircle,
   Zap,
 } from 'lucide-react';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { SheetTitle } from '@/components/ui/sheet';
 
 export default function MainLayout({
   children,
