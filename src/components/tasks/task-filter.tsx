@@ -1,13 +1,11 @@
 'use client';
 
+import * as React from 'react';
 import type { TaskStatus } from '@/types';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 
 const statuses: (TaskStatus | 'All')[] = [
   'All',
@@ -21,21 +19,51 @@ const statuses: (TaskStatus | 'All')[] = [
 
 interface TaskFilterProps {
   onStatusChange: (status: TaskStatus | 'All') => void;
+  onSearchChange: (query: string) => void;
+  initialStatus?: TaskStatus | 'All';
 }
 
-export function TaskFilter({ onStatusChange }: TaskFilterProps) {
+export function TaskFilter({
+  onStatusChange,
+  onSearchChange,
+  initialStatus = 'All',
+}: TaskFilterProps) {
+  const [activeStatus, setActiveStatus] = React.useState<TaskStatus | 'All'>(
+    initialStatus
+  );
+
+  const handleStatusClick = (status: TaskStatus | 'All') => {
+    setActiveStatus(status);
+    onStatusChange(status);
+  };
+
   return (
-    <Select onValueChange={(value) => onStatusChange(value as TaskStatus | 'All')} defaultValue="All">
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Filter by status" />
-      </SelectTrigger>
-      <SelectContent>
+    <div className="flex w-full items-center justify-between gap-4">
+      <div className="relative w-full max-w-sm">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="Search by Order ID..."
+          className="pl-9"
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
+      </div>
+      <div className="flex items-center gap-2 rounded-md bg-muted p-1">
         {statuses.map((status) => (
-          <SelectItem key={status} value={status}>
+          <Button
+            key={status}
+            variant={activeStatus === status ? 'default' : 'ghost'}
+            className={cn(
+              'h-8 px-3 text-sm',
+              activeStatus === status
+                ? 'bg-background text-foreground shadow-sm'
+                : 'hover:bg-background/50'
+            )}
+            onClick={() => handleStatusClick(status)}
+          >
             {status}
-          </SelectItem>
+          </Button>
         ))}
-      </SelectContent>
-    </Select>
+      </div>
+    </div>
   );
 }

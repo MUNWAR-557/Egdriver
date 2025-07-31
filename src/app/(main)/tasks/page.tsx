@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Clock, MapPin, Package, Truck } from 'lucide-react';
+import { Clock, MapPin, Package, Truck, Bot } from 'lucide-react';
 import Image from 'next/image';
 
 import { useToast } from '@/hooks/use-toast';
@@ -32,6 +32,7 @@ const initialTasks: Task[] = [
 export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [filterStatus, setFilterStatus] = useState<TaskStatus | 'All'>('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const { toast } = useToast();
 
   const handleStatusUpdate = (taskId: string, newStatus: TaskStatus) => {
@@ -101,20 +102,29 @@ export default function TasksPage() {
   };
 
   const filteredTasks = useMemo(() => {
-    if (filterStatus === 'All') {
-      return tasks;
+    let filtered = tasks;
+
+    if (filterStatus !== 'All') {
+      filtered = filtered.filter((task) => task.status === filterStatus);
     }
-    return tasks.filter((task) => task.status === filterStatus);
-  }, [tasks, filterStatus]);
+
+    if (searchQuery) {
+      filtered = filtered.filter((task) =>
+        task.id.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [tasks, filterStatus, searchQuery]);
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold tracking-tight">Your Tasks</h2>
-        <div className="flex items-center gap-2">
-            <TaskFilter onStatusChange={setFilterStatus} />
+      <div className="flex flex-col gap-4 mb-6">
+        <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold tracking-tight">Your Tasks</h2>
             <AiSuggestions />
         </div>
+        <TaskFilter onStatusChange={setFilterStatus} onSearchChange={setSearchQuery} />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -177,7 +187,7 @@ export default function TasksPage() {
           })
         ) : (
           <p className="text-muted-foreground col-span-full text-center">
-            No tasks found for the selected status.
+            No tasks found for the selected filters.
           </p>
         )}
       </div>
