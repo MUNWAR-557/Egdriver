@@ -36,8 +36,8 @@ export default function MainLayout({
   const pathname = usePathname();
 
   const menuItems = [
-    { href: '/tasks', label: 'Tasks', icon: LayoutGrid },
     { href: '/dashboard', label: 'Dashboard', icon: BarChartBig },
+    { href: '/tasks', label: 'Tasks', icon: LayoutGrid },
     { href: '/profile', label: 'Profile', icon: UserCircle },
     { href: '/support', label: 'Support', icon: LifeBuoy },
   ];
@@ -47,7 +47,7 @@ export default function MainLayout({
       <div className="flex min-h-screen">
         <Sidebar collapsible="icon" className="border-r border-sidebar-border">
           <SidebarHeader className="p-4">
-            <Link href="/tasks" className="flex items-center gap-2">
+            <Link href="/dashboard" className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <Zap className="h-5 w-5" />
               </div>
