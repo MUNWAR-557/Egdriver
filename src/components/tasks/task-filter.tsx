@@ -56,7 +56,7 @@ export function TaskFilter({
               'h-8 px-3 text-sm',
               activeStatus === status
                 ? 'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground'
-                : 'hover:bg-accent hover:text-accent-foreground'
+                : 'text-foreground/80 hover:bg-accent hover:text-accent-foreground'
             )}
             onClick={() => handleStatusClick(status)}
           >
