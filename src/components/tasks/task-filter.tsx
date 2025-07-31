@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -42,7 +43,7 @@ export function TaskFilter({
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search by Order ID..."
-          className="pl-9"
+          className="pl-9 focus:border-primary"
           onChange={(e) => onSearchChange(e.target.value)}
         />
       </div>
@@ -54,7 +55,7 @@ export function TaskFilter({
             className={cn(
               'h-8 px-3 text-sm',
               activeStatus === status
-                ? 'bg-background text-foreground shadow-sm hover:bg-background'
+                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                 : 'hover:bg-background/50'
             )}
             onClick={() => handleStatusClick(status)}
