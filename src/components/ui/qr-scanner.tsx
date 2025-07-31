@@ -14,23 +14,18 @@ interface QrScannerProps {
 
 export function QrScanner({ onScanSuccess, expectedValue }: QrScannerProps) {
   const scannerRef = useRef<Html5Qrcode | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const { toast } = useToast();
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
 
   useEffect(() => {
     const getCameraPermission = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-        setHasCameraPermission(true);
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
+        const devices = await Html5Qrcode.getCameras();
+        if (devices && devices.length) {
+            setHasCameraPermission(true);
+        } else {
+            setHasCameraPermission(false);
         }
-
-        scannerRef.current = new Html5Qrcode('qr-reader');
-        startScanner();
-
       } catch (error) {
         console.error('Error accessing camera:', error);
         setHasCameraPermission(false);
@@ -41,62 +36,64 @@ export function QrScanner({ onScanSuccess, expectedValue }: QrScannerProps) {
         });
       }
     };
-
-    const startScanner = () => {
-      if (scannerRef.current && scannerRef.current.isScanning === false) {
-        scannerRef.current.start(
-          { facingMode: 'environment' },
-          {
-            fps: 10,
-            qrbox: { width: 250, height: 250 },
-          },
-          (decodedText) => {
-            if (decodedText === expectedValue) {
-              stopScanner();
-              onScanSuccess(decodedText);
-            } else {
-              toast({
-                variant: 'destructive',
-                title: 'Incorrect QR Code',
-                description: `Scanned an invalid QR code. Please scan the correct one for task ${expectedValue}.`,
-              });
-            }
-          },
-          (errorMessage) => {
-            // console.warn(`QR Code no longer in front of camera.`, errorMessage);
-          }
-        ).catch((err) => {
-            console.error("Scanner start error", err);
-            toast({
-                variant: 'destructive',
-                title: 'Scanner Error',
-                description: 'Could not start the QR code scanner.',
-            });
-        });
-      }
-    };
-
+    getCameraPermission();
+  }, [toast]);
+  
+  useEffect(() => {
+    if (hasCameraPermission) {
+        scannerRef.current = new Html5Qrcode('qr-reader-container');
+        startScanner();
+    }
+    
     const stopScanner = () => {
-      if (scannerRef.current && scannerRef.current.getState() === Html5QrcodeScannerState.SCANNING) {
+      if (scannerRef.current && scannerRef.current.isScanning) {
         scannerRef.current.stop().catch(err => console.error("Failed to stop scanner", err));
       }
     };
 
-    getCameraPermission();
+    const startScanner = () => {
+        if (scannerRef.current && !scannerRef.current.isScanning) {
+            scannerRef.current.start(
+                { facingMode: 'environment' },
+                {
+                    fps: 10,
+                    qrbox: { width: 250, height: 250 },
+                },
+                (decodedText) => {
+                    if (decodedText === expectedValue) {
+                        onScanSuccess(decodedText);
+                    } else {
+                        toast({
+                            variant: 'destructive',
+                            title: 'Incorrect QR Code',
+                            description: `Scanned an invalid QR code. Please scan the correct one for task ${expectedValue}.`,
+                        });
+                    }
+                },
+                (errorMessage) => {
+                    // console.warn(`QR Code no longer in front of camera.`, errorMessage);
+                }
+            ).catch((err) => {
+                console.error("Scanner start error", err);
+                toast({
+                    variant: 'destructive',
+                    title: 'Scanner Error',
+                    description: 'Could not start the QR code scanner.',
+                });
+            });
+        }
+    }
 
     return () => {
       stopScanner();
-      if(videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream;
-        stream.getTracks().forEach(track => track.stop());
-      }
     };
-  }, [onScanSuccess, expectedValue, toast]);
+
+  }, [hasCameraPermission, onScanSuccess, expectedValue, toast]);
 
 
   return (
     <div className="space-y-4">
-      <div id="qr-reader" className="w-full aspect-video rounded-md bg-muted flex items-center justify-center">
+      <div id="qr-reader-container" className="w-full aspect-video rounded-md bg-muted flex items-center justify-center">
          {hasCameraPermission === null && <p>Requesting camera permission...</p>}
       </div>
 
