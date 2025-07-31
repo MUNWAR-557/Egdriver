@@ -1,4 +1,4 @@
-export type TaskStatus = 'Available' | 'Accepted' | 'En Route' | 'Delivered' | 'Arrived';
+export type TaskStatus = 'Available' | 'Accepted' | 'Picked Up' | 'En Route' | 'Delivered' | 'Arrived';
 
 export interface Task {
   id: string;

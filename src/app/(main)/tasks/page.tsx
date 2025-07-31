@@ -5,7 +5,7 @@ import type { Task, TaskStatus } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, MapPin, Package, Truck, CheckCircle2, Bot, CircleDotDashed, Loader2 } from 'lucide-react';
+import { Clock, MapPin, Package, Truck, CheckCircle2, Bot, CircleDotDashed, Loader2, QrCode, ShieldCheck } from 'lucide-react';
 import Image from 'next/image';
 import {
   Dialog,
@@ -14,21 +14,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from '@/components/ui/dialog';
 import { suggestTaskNotifications, SuggestTaskNotificationsOutput } from '@/ai/flows/suggest-task-notifications';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { QrScanner } from '@/components/ui/qr-scanner';
+import { useToast } from '@/hooks/use-toast';
 
 const initialTasks: Task[] = [
   { id: 'TSK001', pickupLocation: '123 Main St, Gourmet Plaza', deliveryAddress: '456 Oak Ave, Apt 7B', orderItems: '2x Pepperoni Pizza, 1x Coke', deliveryTimeframe: '6:30 PM - 7:00 PM', status: 'Available', estimatedEarnings: 12.50 },
   { id: 'TSK002', pickupLocation: '789 Pine St, Tech Park', deliveryAddress: '101 Maple Dr, Suburbia', orderItems: '1x Laptop, 1x Mouse', deliveryTimeframe: 'ASAP', status: 'Available', estimatedEarnings: 25.00 },
   { id: 'TSK003', pickupLocation: '210 Broad St, Central Market', deliveryAddress: '314 River Rd, Waterside', orderItems: 'Groceries (5 items)', deliveryTimeframe: '7:00 PM - 7:45 PM', status: 'Accepted', estimatedEarnings: 15.75 },
-  { id: 'TSK004', pickupLocation: '555 High St, Fashion District', deliveryAddress: '777 Low St, Downtown', orderItems: '1x Dress, 2x T-shirts', deliveryTimeframe: 'Flexible', status: 'En Route', estimatedEarnings: 18.00 },
+  { id: 'TSK004', pickupLocation: '555 High St, Fashion District', deliveryAddress: '777 Low St, Downtown', orderItems: '1x Dress, 2x T-shirts', deliveryTimeframe: 'Flexible', status: 'Picked Up', estimatedEarnings: 18.00 },
 ];
 
 function TaskStatusBadge({ status }: { status: TaskStatus }) {
   const variants: Record<TaskStatus, { variant: "default" | "secondary" | "outline" | "destructive"; icon: React.ReactNode; text: string }> = {
     Available: { variant: 'secondary', icon: <CircleDotDashed className="h-3 w-3" />, text: 'Available' },
     Accepted: { variant: 'default', icon: <Package className="h-3 w-3" />, text: 'Accepted' },
+    'Picked Up': { variant: 'default', icon: <ShieldCheck className="h-3 w-3" />, text: 'Picked Up' },
     'En Route': { variant: 'outline', icon: <Truck className="h-3 w-3" />, text: 'En Route' },
     Arrived: { variant: 'outline', icon: <MapPin className="h-3 w-3" />, text: 'Arrived' },
     Delivered: { variant: 'default', icon: <CheckCircle2 className="h-3 w-3" />, text: 'Delivered' },
@@ -37,7 +41,7 @@ function TaskStatusBadge({ status }: { status: TaskStatus }) {
   const currentVariant = variants[status];
   
   return (
-    <Badge variant={currentVariant.variant} className={`flex items-center gap-1.5 ${status === 'Delivered' ? 'bg-accent text-accent-foreground hover:bg-accent/90' : ''}`}>
+    <Badge variant={currentVariant.variant} className={`flex items-center gap-1.5 ${status === 'Delivered' ? 'bg-accent text-accent-foreground hover:bg-accent/90' : ''} ${status === 'Picked Up' ? 'bg-blue-500 text-white hover:bg-blue-600' : ''}`}>
       {currentVariant.icon}
       <span>{currentVariant.text}</span>
     </Badge>
@@ -115,8 +119,40 @@ function AiSuggestions() {
   );
 }
 
+function ScanQrDialog({ taskId, onScanSuccess }: { taskId: string, onScanSuccess: () => void }) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>
+          <QrCode className="mr-2 h-4 w-4" />
+          Scan &amp; Start Delivery
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Scan Package QR Code</DialogTitle>
+          <DialogDescription>
+            Please scan the QR code on the package for task {taskId} to confirm pickup.
+          </DialogDescription>
+        </DialogHeader>
+        <QrScanner
+          expectedValue={taskId}
+          onScanSuccess={() => {
+            onScanSuccess();
+          }}
+        />
+        <DialogClose asChild>
+           <Button variant="outline" className="mt-4">Cancel</Button>
+        </DialogClose>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+
 export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const { toast } = useToast();
 
   const handleStatusUpdate = (taskId: string, newStatus: TaskStatus) => {
     setTasks(currentTasks =>
@@ -126,13 +162,28 @@ export default function TasksPage() {
     );
   };
 
-  const getNextAction = (status: TaskStatus): { label: string; nextStatus: TaskStatus } | null => {
-    switch (status) {
-      case 'Available': return { label: 'Accept Task', nextStatus: 'Accepted' };
-      case 'Accepted': return { label: 'Start Delivery', nextStatus: 'En Route' };
-      case 'En Route': return { label: 'Arrived at Destination', nextStatus: 'Arrived' };
-      case 'Arrived': return { label: 'Complete Delivery', nextStatus: 'Delivered' };
-      default: return null;
+  const handlePickup = (taskId: string) => {
+    handleStatusUpdate(taskId, 'Picked Up');
+    toast({
+        title: 'Pickup Confirmed!',
+        description: `Task ${taskId} has been marked as "Picked Up".`,
+    });
+  };
+
+  const getNextAction = (task: Task): React.ReactNode => {
+    switch (task.status) {
+      case 'Available':
+        return <Button onClick={() => handleStatusUpdate(task.id, 'Accepted')}>Accept Task</Button>;
+      case 'Accepted':
+        return <ScanQrDialog taskId={task.id} onScanSuccess={() => handlePickup(task.id)} />;
+      case 'Picked Up':
+        return <Button onClick={() => handleStatusUpdate(task.id, 'En Route')}>Start Driving</Button>;
+      case 'En Route':
+        return <Button onClick={() => handleStatusUpdate(task.id, 'Arrived')}>Arrived at Destination</Button>;
+      case 'Arrived':
+        return <Button onClick={() => handleStatusUpdate(task.id, 'Delivered')}>Complete Delivery</Button>;
+      default:
+        return null;
     }
   };
 
@@ -145,7 +196,6 @@ export default function TasksPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {tasks.map((task) => {
-          const nextAction = getNextAction(task.status);
           return (
             <Card key={task.id} className="flex flex-col">
               <CardHeader>
@@ -179,11 +229,7 @@ export default function TasksPage() {
                   <p className="text-sm text-muted-foreground">Estimated Earnings</p>
                   <p className="text-2xl font-bold text-primary">₹{task.estimatedEarnings.toFixed(2)}</p>
                 </div>
-                {nextAction && (
-                  <Button onClick={() => handleStatusUpdate(task.id, nextAction.nextStatus)}>
-                    {nextAction.label}
-                  </Button>
-                )}
+                {getNextAction(task)}
               </CardFooter>
             </Card>
           );
