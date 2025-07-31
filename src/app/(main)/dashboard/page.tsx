@@ -89,7 +89,7 @@ export default function DashboardPage() {
                   tickMargin={10}
                   tickFormatter={(value) => `₹${value}`}
                 />
-                <Tooltip cursor={false} content={<ChartTooltipContent />} />
+                <Tooltip cursor={false} content={<ChartTooltipContent formatter={(value, name) => (<span>₹{value.toLocaleString()}</span>)} />} />
                 <Bar dataKey="earnings" fill="var(--color-earnings)" radius={8} />
               </BarChart>
             </ChartContainer>
