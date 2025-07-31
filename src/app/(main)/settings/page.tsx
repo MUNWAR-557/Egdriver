@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -10,7 +11,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { Save } from 'lucide-react';
+import { ThemeToggle } from '@/components/settings/theme-toggle';
 
 export default function SettingsPage() {
   return (
@@ -48,7 +49,7 @@ export default function SettingsPage() {
               Enable or disable the dark theme for the application.
             </span>
           </Label>
-          <Switch id="dark-mode" />
+          <ThemeToggle />
         </div>
       </CardContent>
     </Card>
