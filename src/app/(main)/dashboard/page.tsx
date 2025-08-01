@@ -44,7 +44,7 @@ const fullDeliveryHistory = [
 export default function DashboardPage() {
   return (
     <div className="space-y-6 p-4 sm:p-6">
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Earnings</CardTitle>
@@ -147,11 +147,11 @@ export default function DashboardPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Order ID</TableHead>
+                <TableHead className="hidden sm:table-cell">Order ID</TableHead>
                 <TableHead>Date</TableHead>
-                <TableHead>Pickup</TableHead>
+                <TableHead className="hidden md:table-cell">Pickup</TableHead>
                 <TableHead>Delivery</TableHead>
-                <TableHead>Items</TableHead>
+                <TableHead className="hidden lg:table-cell">Items</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Earnings</TableHead>
               </TableRow>
@@ -159,11 +159,11 @@ export default function DashboardPage() {
             <TableBody>
               {fullDeliveryHistory.map((delivery) => (
                 <TableRow key={delivery.id}>
-                  <TableCell className="font-medium">{delivery.id}</TableCell>
+                  <TableCell className="font-medium hidden sm:table-cell">{delivery.id}</TableCell>
                   <TableCell>{delivery.date}</TableCell>
-                  <TableCell>{delivery.pickupLocation}</TableCell>
+                  <TableCell className="hidden md:table-cell">{delivery.pickupLocation}</TableCell>
                   <TableCell>{delivery.deliveryAddress}</TableCell>
-                  <TableCell>{delivery.orderItems}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{delivery.orderItems}</TableCell>
                   <TableCell>
                     <Badge variant={delivery.status === 'Delivered' ? 'default' : 'secondary'} className={delivery.status === 'Delivered' ? 'bg-green-500 text-white' : ''}>
                       {delivery.status}

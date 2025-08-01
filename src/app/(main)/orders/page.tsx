@@ -142,10 +142,10 @@ export default function OrdersPage() {
   }, [orders, filterStatus, searchQuery, locationQuery, isOnline]);
 
   return (
-    <div className="p-4 sm:p-6">
-      <div className="flex flex-col gap-4 mb-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
+    <div className="p-4 sm:p-6 space-y-6">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-2 self-start">
                 <Avatar className="h-8 w-8">
                     <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
                     <AvatarFallback>JD</AvatarFallback>
@@ -153,13 +153,13 @@ export default function OrdersPage() {
                 <span className="text-sm font-medium">John Doe</span>
                 <AnimatedSwitch checked={isOnline} onCheckedChange={handleOnlineToggle} />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 w-full sm:w-auto">
                 <OrderFilter onStatusChange={setFilterStatus} />
             </div>
         </div>
 
-        <div className="flex w-full items-center gap-4">
-          <div className="relative w-full max-w-sm">
+        <div className="flex w-full flex-col sm:flex-row items-center gap-4">
+          <div className="relative w-full sm:max-w-xs">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by Order ID..."
@@ -168,7 +168,7 @@ export default function OrdersPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <div className="relative w-full max-w-sm">
+          <div className="relative w-full sm:max-w-xs">
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by Location..."
@@ -182,20 +182,20 @@ export default function OrdersPage() {
       </div>
       
       {isOnline ? (
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
          {filteredOrders.length > 0 ? (
            filteredOrders.map((order) => {
              return (
                <Card key={order.id} className="flex flex-col text-sm">
-                 <CardHeader className="p-3">
+                 <CardHeader className="p-4">
                    <div className="flex justify-between items-start">
                      <CardTitle className="text-base">{order.id}</CardTitle>
                      <OrderStatusBadge status={order.status} />
                    </div>
-                   <CardDescription className="text-xs">{order.deliveryAddress}</CardDescription>
+                   <CardDescription className="text-xs pt-1">{order.deliveryAddress}</CardDescription>
                  </CardHeader>
-                 <CardContent className="flex-grow space-y-2 p-3 pt-0">
-                   <div className="space-y-1 text-xs text-muted-foreground">
+                 <CardContent className="flex-grow space-y-3 p-4 pt-0">
+                   <div className="space-y-2 text-xs text-muted-foreground">
                      <div className="flex items-start gap-2">
                        <MapPin className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
                        <span>
@@ -226,7 +226,7 @@ export default function OrdersPage() {
                      />
                    </div>
                  </CardContent>
-                 <CardFooter className="flex flex-col items-stretch p-3 pt-0">
+                 <CardFooter className="flex flex-col items-stretch p-4 pt-0">
                    <div className="text-center mb-2">
                      <p className="text-xs text-muted-foreground">
                        Earnings
@@ -241,13 +241,13 @@ export default function OrdersPage() {
              );
            })
          ) : (
-           <p className="text-muted-foreground col-span-full text-center">
+           <p className="text-muted-foreground col-span-full text-center py-8">
              No orders found for the selected filters.
            </p>
          )}
        </div>
       ) : (
-        <Card className="col-span-full text-center p-8">
+        <Card className="col-span-full text-center p-8 mt-6">
             <CardHeader>
                 <div className="mx-auto bg-secondary rounded-full h-16 w-16 flex items-center justify-center">
                     <WifiOff className="h-8 w-8 text-muted-foreground" />
