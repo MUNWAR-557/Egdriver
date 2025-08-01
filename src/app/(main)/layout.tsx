@@ -39,7 +39,7 @@ export default function MainLayout({
 
   const menuItems = [
     { href: '/dashboard', label: 'Dashboard', icon: BarChartBig },
-    { href: '/tasks', label: 'Tasks', icon: LayoutGrid },
+    { href: '/orders', label: 'Orders', icon: LayoutGrid },
     { href: '/profile', label: 'Profile', icon: UserCircle },
     { href: '/settings', label: 'Settings', icon: Settings },
     { href: '/support', label: 'Support', icon: LifeBuoy },

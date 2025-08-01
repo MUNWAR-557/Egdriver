@@ -26,9 +26,9 @@ export default function SettingsPage() {
       <CardContent className="space-y-6">
         <div className="flex items-center justify-between space-x-2">
           <Label htmlFor="task-updates" className="flex flex-col space-y-1">
-            <span>Task Updates</span>
+            <span>Order Updates</span>
             <span className="font-normal leading-snug text-muted-foreground">
-              Receive notifications for new tasks, status changes, and cancellations.
+              Receive notifications for new orders, status changes, and cancellations.
             </span>
           </Label>
           <Switch id="task-updates" defaultChecked />

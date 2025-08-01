@@ -55,7 +55,7 @@ export function QrScanner({ onScanSuccess, expectedValue }: QrScannerProps) {
                         toast({
                             variant: 'destructive',
                             title: 'Incorrect QR Code',
-                            description: `Scanned an invalid QR code. Please scan the correct one for task ${expectedValue}.`,
+                            description: `Scanned an invalid QR code. Please scan the correct one for order ${expectedValue}.`,
                         });
                     }
                 },

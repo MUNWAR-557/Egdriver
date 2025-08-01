@@ -114,7 +114,7 @@ export default function DashboardPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Task ID</TableHead>
+                  <TableHead>Order ID</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Earnings</TableHead>
@@ -146,7 +146,7 @@ export default function DashboardPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Task ID</TableHead>
+                <TableHead>Order ID</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Pickup</TableHead>
                 <TableHead>Delivery</TableHead>

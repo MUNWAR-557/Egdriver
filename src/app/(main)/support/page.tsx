@@ -12,7 +12,7 @@ const faqs = [
     },
     {
         question: "What should I do if I can't find the pickup location?",
-        answer: "If you're having trouble finding a pickup location, first try using the in-app map for precise directions. If you still can't find it, you can contact the restaurant or store directly using the contact information provided in the task details."
+        answer: "If you're having trouble finding a pickup location, first try using the in-app map for precise directions. If you still can't find it, you can contact the restaurant or store directly using the contact information provided in the order details."
     },
     {
         question: "How are my earnings calculated?",
@@ -49,7 +49,7 @@ export default function SupportPage() {
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="subject">Subject</Label>
-                            <Input id="subject" placeholder="e.g., Issue with task TSK004" />
+                            <Input id="subject" placeholder="e.g., Issue with order TSK004" />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="message">Your Message</Label>
