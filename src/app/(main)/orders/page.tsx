@@ -145,16 +145,15 @@ export default function OrdersPage() {
     <div className="p-4 sm:p-6">
       <div className="flex flex-col gap-4 mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
-            <h2 className="text-2xl font-bold tracking-tight">Your Orders</h2>
-            <div className="flex items-center gap-4 flex-wrap">
-                <div className="flex items-center gap-2">
-                    <Avatar className="h-8 w-8">
-                        <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
-                        <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <span className="text-sm font-medium">John Doe</span>
-                    <AnimatedSwitch checked={isOnline} onCheckedChange={handleOnlineToggle} />
-                </div>
+            <div className="flex items-center gap-2">
+                <Avatar className="h-8 w-8">
+                    <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
+                    <AvatarFallback>JD</AvatarFallback>
+                </Avatar>
+                <span className="text-sm font-medium">John Doe</span>
+                <AnimatedSwitch checked={isOnline} onCheckedChange={handleOnlineToggle} />
+            </div>
+            <div className="flex-1">
                 <OrderFilter onStatusChange={setFilterStatus} />
             </div>
         </div>

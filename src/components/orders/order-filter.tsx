@@ -34,7 +34,7 @@ export function OrderFilter({
   };
 
   return (
-    <div className="inline-flex flex-wrap items-center gap-2 rounded-md bg-muted p-1">
+    <div className="inline-flex w-full flex-wrap items-center justify-end gap-2 rounded-md bg-muted p-1">
       {statuses.map((status) => (
         <Button
           key={status}
