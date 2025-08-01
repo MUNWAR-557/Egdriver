@@ -146,7 +146,7 @@ export default function OrdersPage() {
       <div className="flex flex-col gap-4 mb-6">
         <div className="flex justify-between items-start">
             <h2 className="text-2xl font-bold tracking-tight">Your Orders</h2>
-            <div className="flex flex-col items-end gap-2">
+            <div className="flex flex-col items-end gap-2 shrink-0">
               <div className="flex items-center gap-2">
                  <Avatar className="h-8 w-8">
                   <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
