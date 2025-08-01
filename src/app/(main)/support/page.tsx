@@ -26,7 +26,7 @@ const faqs = [
 
 export default function SupportPage() {
     return (
-        <div className="container mx-auto grid gap-12 md:grid-cols-2">
+        <div className="container mx-auto grid gap-12 md:grid-cols-2 p-4 sm:p-6">
             <div>
                 <h2 className="text-2xl font-bold tracking-tight mb-4">Frequently Asked Questions</h2>
                 <Accordion type="single" collapsible className="w-full">

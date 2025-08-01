@@ -27,7 +27,7 @@ export default function ProfileLayout({
   ];
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 p-4 sm:p-6">
       <nav className="flex items-center space-x-2 md:space-x-4 lg:space-x-6 border-b">
         {menuItems.map((item) => (
           <Link

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
@@ -42,7 +43,7 @@ const fullDeliveryHistory = [
 
 export default function DashboardPage() {
   return (
-    <div className="container mx-auto space-y-6">
+    <div className="space-y-6 p-4 sm:p-6">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

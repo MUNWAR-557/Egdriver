@@ -15,7 +15,7 @@ import { ThemeToggle } from '@/components/settings/theme-toggle';
 
 export default function SettingsPage() {
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto p-4 sm:p-6">
     <Card>
       <CardHeader>
         <CardTitle>Notification Settings</CardTitle>
