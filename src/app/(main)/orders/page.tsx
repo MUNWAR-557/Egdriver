@@ -39,6 +39,7 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>(initialOrders);
   const [filterStatus, setFilterStatus] = useState<OrderStatus | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [locationQuery, setLocationQuery] = useState('');
   const [isOnline, setIsOnline] = useState(true);
   const { toast } = useToast();
 
@@ -131,8 +132,15 @@ export default function OrdersPage() {
       );
     }
 
+    if (locationQuery) {
+        filtered = filtered.filter(order => 
+            order.pickupLocation.toLowerCase().includes(locationQuery.toLowerCase()) ||
+            order.deliveryAddress.toLowerCase().includes(locationQuery.toLowerCase())
+        );
+    }
+
     return filtered;
-  }, [orders, filterStatus, searchQuery, isOnline]);
+  }, [orders, filterStatus, searchQuery, locationQuery, isOnline]);
 
   return (
     <div className="p-4 sm:p-6">
@@ -164,6 +172,15 @@ export default function OrdersPage() {
               className="pl-9 focus:border-primary"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <div className="relative w-full max-w-sm">
+            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search by Location..."
+              className="pl-9 focus:border-primary"
+              value={locationQuery}
+              onChange={(e) => setLocationQuery(e.target.value)}
             />
           </div>
           <AiSuggestions />
