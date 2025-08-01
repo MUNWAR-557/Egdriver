@@ -38,11 +38,13 @@ function MainLayoutContent({
     children: React.ReactNode;
   }) {
     const pathname = usePathname();
-    const { setOpenMobile } = useSidebar();
+    const { setOpenMobile, isMobile } = useSidebar();
   
-    const handleLinkClick = () => {
-      setOpenMobile(false);
-    }
+    React.useEffect(() => {
+        if (isMobile) {
+            setOpenMobile(false);
+        }
+    }, [pathname, isMobile, setOpenMobile]);
   
     const menuItems = [
       { href: '/dashboard', label: 'Dashboard', icon: BarChartBig },
@@ -56,7 +58,7 @@ function MainLayoutContent({
         <div className="flex min-h-screen">
           <Sidebar collapsible="icon" className="border-r border-sidebar-border">
             <SidebarHeader className="p-4">
-              <Link href="/dashboard" onClick={handleLinkClick} className="flex items-center gap-2">
+              <Link href="/dashboard" className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <Zap className="h-5 w-5" />
                 </div>
@@ -78,7 +80,7 @@ function MainLayoutContent({
                         align: 'center',
                       }}
                     >
-                      <Link href={item.href} onClick={handleLinkClick}>
+                      <Link href={item.href}>
                         <item.icon />
                         <span>{item.label}</span>
                       </Link>
@@ -94,7 +96,7 @@ function MainLayoutContent({
                         align: 'center',
                       }}
                     >
-                      <Link href="/login" onClick={handleLinkClick}>
+                      <Link href="/login">
                         <LogOut />
                         <span>Sign Out</span>
                       </Link>
