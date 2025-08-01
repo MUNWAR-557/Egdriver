@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Clock, MapPin, Package, Truck, Bot } from 'lucide-react';
+import { Clock, MapPin, Package, Truck, WifiOff } from 'lucide-react';
 import Image from 'next/image';
 
 import { useToast } from '@/hooks/use-toast';
@@ -117,6 +117,8 @@ export default function OrdersPage() {
   };
 
   const filteredOrders = useMemo(() => {
+    if (!isOnline) return [];
+
     let filtered = orders;
 
     if (filterStatus !== 'All') {
@@ -130,7 +132,7 @@ export default function OrdersPage() {
     }
 
     return filtered;
-  }, [orders, filterStatus, searchQuery]);
+  }, [orders, filterStatus, searchQuery, isOnline]);
 
   return (
     <div className="p-4 sm:p-6">
@@ -167,71 +169,85 @@ export default function OrdersPage() {
           <AiSuggestions />
         </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredOrders.length > 0 ? (
-          filteredOrders.map((order) => {
-            return (
-              <Card key={order.id} className="flex flex-col text-sm">
-                <CardHeader className="p-3">
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-base">{order.id}</CardTitle>
-                    <OrderStatusBadge status={order.status} />
-                  </div>
-                  <CardDescription className="text-xs">{order.deliveryAddress}</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow space-y-2 p-3 pt-0">
-                  <div className="space-y-1 text-xs text-muted-foreground">
-                    <div className="flex items-start gap-2">
-                      <MapPin className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
-                      <span>
-                        <strong>From:</strong> {order.pickupLocation}
-                      </span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <Package className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
-                      <span>
-                        <strong>Items:</strong> {order.orderItems}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="h-3 w-3 text-primary flex-shrink-0" />
-                      <span>
-                        <strong>Time:</strong> {order.deliveryTimeframe}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="rounded-md overflow-hidden border">
-                    <Image
-                      src="https://placehold.co/400x150.png"
-                      width={400}
-                      height={150}
-                      alt="Route map"
-                      data-ai-hint="route map"
-                      className="w-full object-cover"
-                    />
-                  </div>
-                </CardContent>
-                <CardFooter className="flex flex-col items-stretch p-3 pt-0">
-                  <div className="text-center mb-2">
-                    <p className="text-xs text-muted-foreground">
-                      Earnings
-                    </p>
-                    <p className="text-lg font-bold text-primary">
-                      ₹{order.estimatedEarnings.toFixed(2)}
-                    </p>
-                  </div>
-                  {getNextAction(order)}
-                </CardFooter>
-              </Card>
-            );
-          })
-        ) : (
-          <p className="text-muted-foreground col-span-full text-center">
-            No orders found for the selected filters.
-          </p>
-        )}
-      </div>
+      
+      {isOnline ? (
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+         {filteredOrders.length > 0 ? (
+           filteredOrders.map((order) => {
+             return (
+               <Card key={order.id} className="flex flex-col text-sm">
+                 <CardHeader className="p-3">
+                   <div className="flex justify-between items-start">
+                     <CardTitle className="text-base">{order.id}</CardTitle>
+                     <OrderStatusBadge status={order.status} />
+                   </div>
+                   <CardDescription className="text-xs">{order.deliveryAddress}</CardDescription>
+                 </CardHeader>
+                 <CardContent className="flex-grow space-y-2 p-3 pt-0">
+                   <div className="space-y-1 text-xs text-muted-foreground">
+                     <div className="flex items-start gap-2">
+                       <MapPin className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
+                       <span>
+                         <strong>From:</strong> {order.pickupLocation}
+                       </span>
+                     </div>
+                     <div className="flex items-start gap-2">
+                       <Package className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
+                       <span>
+                         <strong>Items:</strong> {order.orderItems}
+                       </span>
+                     </div>
+                     <div className="flex items-center gap-2">
+                       <Clock className="h-3 w-3 text-primary flex-shrink-0" />
+                       <span>
+                         <strong>Time:</strong> {order.deliveryTimeframe}
+                       </span>
+                     </div>
+                   </div>
+                   <div className="rounded-md overflow-hidden border">
+                     <Image
+                       src="https://placehold.co/400x150.png"
+                       width={400}
+                       height={150}
+                       alt="Route map"
+                       data-ai-hint="route map"
+                       className="w-full object-cover"
+                     />
+                   </div>
+                 </CardContent>
+                 <CardFooter className="flex flex-col items-stretch p-3 pt-0">
+                   <div className="text-center mb-2">
+                     <p className="text-xs text-muted-foreground">
+                       Earnings
+                     </p>
+                     <p className="text-lg font-bold text-primary">
+                       ₹{order.estimatedEarnings.toFixed(2)}
+                     </p>
+                   </div>
+                   {getNextAction(order)}
+                 </CardFooter>
+               </Card>
+             );
+           })
+         ) : (
+           <p className="text-muted-foreground col-span-full text-center">
+             No orders found for the selected filters.
+           </p>
+         )}
+       </div>
+      ) : (
+        <Card className="col-span-full text-center p-8">
+            <CardHeader>
+                <div className="mx-auto bg-secondary rounded-full h-16 w-16 flex items-center justify-center">
+                    <WifiOff className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <CardTitle className="mt-4">You Are Offline</CardTitle>
+                <CardDescription>
+                    You are not currently visible for new orders. Please switch to "Online" to start receiving delivery requests.
+                </CardDescription>
+            </CardHeader>
+        </Card>
+      )}
     </div>
   );
 }
