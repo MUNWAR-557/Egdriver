@@ -28,30 +28,29 @@ export function AnimatedSwitch({
         checked ? 'bg-green-500' : 'bg-gray-400'
       )}
     >
-      <span className="sr-only">Use setting</span>
-      <span
-        aria-hidden="true"
-        className={cn(
-          'pointer-events-none absolute left-0 top-0 inline-block h-7 w-16 transform rounded-full bg-white shadow-lg ring-0 transition-transform duration-200 ease-in-out',
-          checked ? 'translate-x-[78px]' : 'translate-x-0'
-        )}
-      />
       <span
         className={cn(
-          'absolute inset-0 flex items-center justify-center text-xs font-semibold text-white transition-opacity',
-          checked ? 'opacity-100 duration-200 ease-in' : 'opacity-0 duration-100 ease-out'
+          'absolute inset-0 flex items-center px-4 text-xs font-semibold text-white transition-opacity',
+          checked ? 'justify-start opacity-100' : 'opacity-0'
         )}
       >
         Online
       </span>
       <span
         className={cn(
-          'absolute inset-0 flex items-center justify-center text-xs font-semibold text-white transition-opacity',
-          !checked ? 'opacity-100 duration-200 ease-in' : 'opacity-0 duration-100 ease-out'
+          'absolute inset-0 flex items-center px-4 text-xs font-semibold text-white transition-opacity',
+          !checked ? 'justify-end opacity-100' : 'opacity-0'
         )}
       >
         Offline
       </span>
+      <span
+        aria-hidden="true"
+        className={cn(
+          'pointer-events-none inline-block h-7 w-16 transform rounded-full bg-white shadow-lg ring-0 transition-transform duration-200 ease-in-out',
+          checked ? 'translate-x-[78px]' : 'translate-x-0'
+        )}
+      />
     </button>
   );
 }
