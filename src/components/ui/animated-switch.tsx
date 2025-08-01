@@ -47,8 +47,8 @@ export function AnimatedSwitch({
       <span
         aria-hidden="true"
         className={cn(
-          'pointer-events-none inline-block h-7 w-14 transform rounded-full bg-white shadow-lg ring-0 transition-transform duration-200 ease-in-out',
-          checked ? 'translate-x-14' : 'translate-x-0'
+          'pointer-events-none inline-block h-7 w-14 transform rounded-full bg-yellow-400 shadow-lg ring-0 transition-transform duration-200 ease-in-out',
+          checked ? 'translate-x-[3.25rem]' : 'translate-x-0'
         )}
       />
     </button>
