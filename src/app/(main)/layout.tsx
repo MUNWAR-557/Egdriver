@@ -25,6 +25,7 @@ import {
   BarChartBig,
   LayoutGrid,
   LifeBuoy,
+  LogOut,
   Settings,
   UserCircle,
   Zap,
@@ -81,7 +82,24 @@ export default function MainLayout({
               ))}
             </SidebarMenu>
           </SidebarContent>
-          <SidebarFooter className="p-4">
+          <SidebarFooter className="p-4 flex flex-col gap-2">
+            <SidebarMenu>
+               <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={{
+                      children: "Sign Out",
+                      side: 'right',
+                      align: 'center',
+                    }}
+                  >
+                    <Link href="/login">
+                      <LogOut />
+                      <span>Sign Out</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
             <div className="flex items-center gap-3">
               <Avatar>
                 <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
