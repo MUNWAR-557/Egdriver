@@ -7,6 +7,7 @@ import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { PackageCheck, TrendingUp } from 'lucide-react';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 const chartData = [
   { month: 'Jan', earnings: 1860.45 },
@@ -112,28 +113,31 @@ export default function DashboardPage() {
             <CardDescription>A history of your most recent deliveries.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Order ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Earnings</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {deliveryHistory.map((delivery) => (
-                  <TableRow key={delivery.id}>
-                    <TableCell className="font-medium">{delivery.id}</TableCell>
-                    <TableCell>{delivery.date}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{delivery.status}</Badge>
-                    </TableCell>
-                    <TableCell className="text-right">₹{delivery.earnings.toFixed(2)}</TableCell>
+             <ScrollArea>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Order ID</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Earnings</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {deliveryHistory.map((delivery) => (
+                    <TableRow key={delivery.id}>
+                      <TableCell className="font-medium">{delivery.id}</TableCell>
+                      <TableCell>{delivery.date}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{delivery.status}</Badge>
+                      </TableCell>
+                      <TableCell className="text-right">₹{delivery.earnings.toFixed(2)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
           </CardContent>
         </Card>
       </div>
@@ -144,36 +148,39 @@ export default function DashboardPage() {
           <CardDescription>A complete history of all your deliveries.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="hidden sm:table-cell">Order ID</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead className="hidden md:table-cell">Pickup</TableHead>
-                <TableHead>Delivery</TableHead>
-                <TableHead className="hidden lg:table-cell">Items</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Earnings</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {fullDeliveryHistory.map((delivery) => (
-                <TableRow key={delivery.id}>
-                  <TableCell className="font-medium hidden sm:table-cell">{delivery.id}</TableCell>
-                  <TableCell>{delivery.date}</TableCell>
-                  <TableCell className="hidden md:table-cell">{delivery.pickupLocation}</TableCell>
-                  <TableCell>{delivery.deliveryAddress}</TableCell>
-                  <TableCell className="hidden lg:table-cell">{delivery.orderItems}</TableCell>
-                  <TableCell>
-                    <Badge variant={delivery.status === 'Delivered' ? 'default' : 'secondary'} className={delivery.status === 'Delivered' ? 'bg-green-500 text-white' : ''}>
-                      {delivery.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">₹{delivery.estimatedEarnings.toFixed(2)}</TableCell>
+          <ScrollArea>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="hidden sm:table-cell">Order ID</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead className="hidden md:table-cell">Pickup</TableHead>
+                  <TableHead>Delivery</TableHead>
+                  <TableHead className="hidden lg:table-cell">Items</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Earnings</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {fullDeliveryHistory.map((delivery) => (
+                  <TableRow key={delivery.id}>
+                    <TableCell className="font-medium hidden sm:table-cell">{delivery.id}</TableCell>
+                    <TableCell>{delivery.date}</TableCell>
+                    <TableCell className="hidden md:table-cell">{delivery.pickupLocation}</TableCell>
+                    <TableCell>{delivery.deliveryAddress}</TableCell>
+                    <TableCell className="hidden lg:table-cell">{delivery.orderItems}</TableCell>
+                    <TableCell>
+                      <Badge variant={delivery.status === 'Delivered' ? 'default' : 'secondary'} className={delivery.status === 'Delivered' ? 'bg-green-500 text-white' : ''}>
+                        {delivery.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">₹{delivery.estimatedEarnings.toFixed(2)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </CardContent>
       </Card>
     </div>

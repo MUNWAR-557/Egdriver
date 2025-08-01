@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -58,7 +59,7 @@ export function AiSuggestions() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="w-full">
           <Bot className="mr-2 h-4 w-4" />
           Get AI Suggestions
         </Button>
