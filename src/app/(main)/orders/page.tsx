@@ -23,9 +23,8 @@ import { OrderStatusBadge } from '@/components/orders/order-status-badge';
 import { OrderFilter } from '@/components/orders/order-filter';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { AnimatedSwitch } from '@/components/ui/animated-switch';
 
 const initialOrders: Order[] = [
   { id: 'TSK001', pickupLocation: '123 Main St, Gourmet Plaza', deliveryAddress: '456 Oak Ave, Apt 7B', orderItems: '2x Pepperoni Pizza, 1x Coke', deliveryTimeframe: '6:30 PM - 7:00 PM', status: 'Available', estimatedEarnings: 12.50 },
@@ -155,12 +154,7 @@ export default function OrdersPage() {
                 </Avatar>
                 <span className="text-sm font-medium">John Doe</span>
               </div>
-               <div className="flex items-center space-x-2">
-                <Switch id="online-status" checked={isOnline} onCheckedChange={handleOnlineToggle} />
-                <Label htmlFor="online-status" className="text-sm font-medium">
-                  {isOnline ? 'Online' : 'Offline'}
-                </Label>
-              </div>
+              <AnimatedSwitch checked={isOnline} onCheckedChange={handleOnlineToggle} />
             </div>
         </div>
         <OrderFilter onStatusChange={setFilterStatus} />
