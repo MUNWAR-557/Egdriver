@@ -16,7 +16,7 @@ export default function AuthLayout({
               <Zap className="h-6 w-6" />
             </div>
             <span className="font-headline text-2xl font-bold text-primary">
-              EGdriver
+              Delivery App
             </span>
           </Link>
         </div>
