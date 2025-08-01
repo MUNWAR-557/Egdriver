@@ -12,8 +12,8 @@ const inter = Inter({
 
 
 export const metadata: Metadata = {
-  title: 'Delivery App - Your Delivery Partner',
-  description: 'Manage your delivery orders efficiently with Delivery App.',
+  title: 'EGdriver - Your Delivery Partner',
+  description: 'Manage your delivery orders efficiently with EGdriver.',
 };
 
 export default function RootLayout({

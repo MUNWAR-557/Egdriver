@@ -56,7 +56,7 @@ export default function MainLayout({
                 <Zap className="h-5 w-5" />
               </div>
               <span className="font-headline text-lg font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
-                Delivery App
+                EGdriver
               </span>
             </Link>
           </SidebarHeader>
@@ -124,7 +124,7 @@ export default function MainLayout({
                     <Zap className="h-5 w-5" />
                   </div>
                   <span className="font-headline text-xl font-bold text-primary">
-                    Delivery App
+                    EGdriver
                   </span>
                 </Link>
               </div>
