@@ -144,20 +144,21 @@ export default function OrdersPage() {
   return (
     <div className="p-4 sm:p-6">
       <div className="flex flex-col gap-4 mb-6">
-        <div className="flex justify-between items-start">
+        <div className="flex flex-wrap items-center justify-between gap-4">
             <h2 className="text-2xl font-bold tracking-tight">Your Orders</h2>
-            <div className="flex flex-col items-end gap-2 shrink-0">
-              <div className="flex items-center gap-2">
-                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
-                  <AvatarFallback>JD</AvatarFallback>
-                </Avatar>
-                <span className="text-sm font-medium">John Doe</span>
-              </div>
-              <AnimatedSwitch checked={isOnline} onCheckedChange={handleOnlineToggle} />
+            <div className="flex items-center gap-4 flex-wrap">
+                <div className="flex items-center gap-2">
+                    <Avatar className="h-8 w-8">
+                        <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
+                        <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-medium">John Doe</span>
+                    <AnimatedSwitch checked={isOnline} onCheckedChange={handleOnlineToggle} />
+                </div>
+                <OrderFilter onStatusChange={setFilterStatus} />
             </div>
         </div>
-        <OrderFilter onStatusChange={setFilterStatus} />
+
         <div className="flex w-full items-center gap-4">
           <div className="relative w-full max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
