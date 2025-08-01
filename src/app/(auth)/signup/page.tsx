@@ -14,7 +14,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   FormControl,
   FormField,
@@ -30,8 +29,6 @@ const profileSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   phone: z.string().regex(/^\d{10}$/, 'Must be a valid 10-digit phone number'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: z.string(),
   drivingLicense: z.custom<File>((v) => v instanceof File, {
     message: 'Driving license is required.',
   }),
@@ -41,16 +38,12 @@ const profileSchema = z.object({
   profilePhoto: z.custom<File>((v) => v instanceof File, {
     message: 'Profile photo is required.',
   }),
-})
-.refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 const steps = [
-  { id: 1, title: 'Personal Details', fields: ['fullName', 'email', 'phone', 'password', 'confirmPassword'] },
+  { id: 1, title: 'Personal Details', fields: ['fullName', 'email', 'phone'] },
   { id: 2, title: 'Document Upload', fields: ['drivingLicense', 'aadharNumber', 'profilePhoto'] },
 ];
 
@@ -64,8 +57,6 @@ export default function SignupPage() {
       fullName: '',
       email: '',
       phone: '',
-      password: '',
-      confirmPassword: '',
       aadharNumber: '',
       drivingLicense: undefined,
       profilePhoto: undefined,
@@ -149,32 +140,6 @@ export default function SignupPage() {
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
                         <Input placeholder="9876543210" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Confirm Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
