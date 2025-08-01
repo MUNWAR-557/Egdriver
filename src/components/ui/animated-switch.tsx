@@ -24,13 +24,13 @@ export function AnimatedSwitch({
       aria-checked={checked}
       onClick={handleToggle}
       className={cn(
-        'relative inline-flex h-8 w-32 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
+        'relative inline-flex h-8 w-28 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
         checked ? 'bg-green-500' : 'bg-gray-400'
       )}
     >
       <span
         className={cn(
-          'absolute inset-0 flex items-center px-4 text-xs font-semibold text-white transition-opacity',
+          'absolute inset-0 flex items-center px-3 text-xs font-semibold text-white transition-opacity',
           checked ? 'justify-start opacity-100' : 'opacity-0'
         )}
       >
@@ -38,7 +38,7 @@ export function AnimatedSwitch({
       </span>
       <span
         className={cn(
-          'absolute inset-0 flex items-center px-4 text-xs font-semibold text-white transition-opacity',
+          'absolute inset-0 flex items-center px-3 text-xs font-semibold text-white transition-opacity',
           !checked ? 'justify-end opacity-100' : 'opacity-0'
         )}
       >
@@ -47,8 +47,8 @@ export function AnimatedSwitch({
       <span
         aria-hidden="true"
         className={cn(
-          'pointer-events-none inline-block h-7 w-16 transform rounded-full bg-white shadow-lg ring-0 transition-transform duration-200 ease-in-out',
-          checked ? 'translate-x-[65px]' : 'translate-x-0'
+          'pointer-events-none inline-block h-7 w-14 transform rounded-full bg-white shadow-lg ring-0 transition-transform duration-200 ease-in-out',
+          checked ? 'translate-x-14' : 'translate-x-0'
         )}
       />
     </button>
