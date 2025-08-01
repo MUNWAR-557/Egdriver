@@ -48,7 +48,7 @@ export function AnimatedSwitch({
         aria-hidden="true"
         className={cn(
           'pointer-events-none inline-block h-7 w-16 transform rounded-full bg-white shadow-lg ring-0 transition-transform duration-200 ease-in-out',
-          checked ? 'translate-x-[78px]' : 'translate-x-0'
+          checked ? 'translate-x-[65px]' : 'translate-x-0'
         )}
       />
     </button>
