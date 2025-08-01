@@ -104,7 +104,7 @@ export default function PaymentMethodsPage() {
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="bank" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-lime-300 rounded-md">
+          <TabsList className="grid w-full grid-cols-2 rounded-md">
             <TabsTrigger value="bank" className="data-[state=active]:bg-lime-300 data-[state=inactive]:bg-white rounded-md">Bank Accounts</TabsTrigger>
             <TabsTrigger value="upi" className="data-[state=active]:bg-lime-300 data-[state=inactive]:bg-white rounded-md">UPI IDs</TabsTrigger>
           </TabsList>
