@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -103,9 +104,9 @@ export default function PaymentMethodsPage() {
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="bank" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-green-100/50 rounded-md">
-            <TabsTrigger value="bank" className="data-[state=active]:bg-white data-[state=inactive]:bg-green-100/50 rounded-md">Bank Accounts</TabsTrigger>
-            <TabsTrigger value="upi" className="data-[state=active]:bg-white data-[state=inactive]:bg-green-100/50 rounded-md">UPI IDs</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 bg-lime-300 rounded-md">
+            <TabsTrigger value="bank" className="data-[state=active]:bg-white data-[state=inactive]:bg-lime-300 rounded-md">Bank Accounts</TabsTrigger>
+            <TabsTrigger value="upi" className="data-[state=active]:bg-white data-[state=inactive]:bg-lime-300 rounded-md">UPI IDs</TabsTrigger>
           </TabsList>
           <TabsContent value="bank" className="mt-4 space-y-4">
             {bankAccounts.map((account) => (
