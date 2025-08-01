@@ -23,6 +23,9 @@ import { OrderStatusBadge } from '@/components/orders/order-status-badge';
 import { OrderFilter } from '@/components/orders/order-filter';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const initialOrders: Order[] = [
   { id: 'TSK001', pickupLocation: '123 Main St, Gourmet Plaza', deliveryAddress: '456 Oak Ave, Apt 7B', orderItems: '2x Pepperoni Pizza, 1x Coke', deliveryTimeframe: '6:30 PM - 7:00 PM', status: 'Available', estimatedEarnings: 12.50 },
@@ -36,6 +39,7 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>(initialOrders);
   const [filterStatus, setFilterStatus] = useState<OrderStatus | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isOnline, setIsOnline] = useState(true);
   const { toast } = useToast();
 
   const handleStatusUpdate = (orderId: string, newStatus: OrderStatus) => {
@@ -62,6 +66,14 @@ export default function OrdersPage() {
       className: 'bg-green-500 text-white',
     });
   };
+
+  const handleOnlineToggle = (online: boolean) => {
+    setIsOnline(online);
+    toast({
+      title: `You are now ${online ? 'Online' : 'Offline'}`,
+      description: online ? 'You will now receive new order notifications.' : 'You will not receive new order notifications.',
+    });
+  }
 
   const getNextAction = (order: Order): React.ReactNode => {
     switch (order.status) {
@@ -123,7 +135,24 @@ export default function OrdersPage() {
   return (
     <div className="p-4 sm:p-6">
       <div className="flex flex-col gap-4 mb-6">
-        <h2 className="text-2xl font-bold tracking-tight">Your Orders</h2>
+        <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold tracking-tight">Your Orders</h2>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center space-x-2">
+                <Switch id="online-status" checked={isOnline} onCheckedChange={handleOnlineToggle} />
+                <Label htmlFor="online-status" className="text-sm font-medium">
+                  {isOnline ? 'Online' : 'Offline'}
+                </Label>
+              </div>
+              <div className="flex items-center gap-2">
+                 <Avatar className="h-8 w-8">
+                  <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
+                  <AvatarFallback>JD</AvatarFallback>
+                </Avatar>
+                <span className="text-sm font-medium hidden sm:inline">John Doe</span>
+              </div>
+            </div>
+        </div>
         <OrderFilter onStatusChange={setFilterStatus} />
         <div className="flex w-full items-center gap-4">
           <div className="relative w-full max-w-sm">
