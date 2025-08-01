@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { OrderStatus } from '@/types';
@@ -39,6 +40,8 @@ export function OrderStatusBadge({ status }: OrderStatusBadgeProps) {
           : ''
       } ${
         status === 'Picked Up' ? 'bg-blue-500 text-white hover:bg-blue-600' : ''
+      } ${
+        status === 'Available' ? 'bg-yellow-400 text-black hover:bg-yellow-500' : ''
       }`}
     >
       {currentVariant.icon}
