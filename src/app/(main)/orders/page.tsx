@@ -142,7 +142,7 @@ export default function OrdersPage() {
   }, [orders, filterStatus, searchQuery, locationQuery, isOnline]);
 
   return (
-    <div className="p-4 sm:p-6">
+    <div className="container mx-auto">
       <div className="flex flex-col gap-4 mb-6">
         <div className="flex justify-between items-start">
             <h2 className="text-2xl font-bold tracking-tight">Your Orders</h2>
