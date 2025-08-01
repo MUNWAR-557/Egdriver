@@ -40,6 +40,7 @@ interface BankAccount {
 
 interface UpiId {
   id: string;
+  fullName: string;
   upiId: string;
   isDefault: boolean;
 }
@@ -60,7 +61,7 @@ const initialBankAccounts: BankAccount[] = [
 ];
 
 const initialUpiIds: UpiId[] = [
-  { id: 'upi_1', upiId: 'driver@exampleupi', isDefault: true },
+  { id: 'upi_1', fullName: 'John Doe', upiId: 'driver@exampleupi', isDefault: true },
 ];
 
 export default function PaymentMethodsPage() {
@@ -158,6 +159,7 @@ export default function PaymentMethodsPage() {
                     <div className="font-mono text-xs font-bold bg-muted text-muted-foreground p-2 rounded-md">UPI</div>
                      <div>
                         <p className="font-semibold">{upi.upiId}</p>
+                        <p className="text-sm text-muted-foreground">{upi.fullName}</p>
                      </div>
                 </div>
                  <AlertDialog>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -27,13 +28,14 @@ import {
 import { PlusCircle } from 'lucide-react';
 
 const upiSchema = z.object({
+  fullName: z.string().min(2, 'Full name is required'),
   upiId: z.string().regex(/^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/, 'Enter a valid UPI ID'),
 });
 
 type UpiFormData = z.infer<typeof upiSchema>;
 
 interface AddUpiDialogProps {
-  onSave: (data: { upiId: string }) => void;
+  onSave: (data: { upiId: string; fullName: string }) => void;
 }
 
 export function AddUpiDialog({ onSave }: AddUpiDialogProps) {
@@ -41,6 +43,7 @@ export function AddUpiDialog({ onSave }: AddUpiDialogProps) {
   const form = useForm<UpiFormData>({
     resolver: zodResolver(upiSchema),
     defaultValues: {
+      fullName: '',
       upiId: '',
     },
   });
@@ -62,11 +65,24 @@ export function AddUpiDialog({ onSave }: AddUpiDialogProps) {
         <DialogHeader>
           <DialogTitle>Add New UPI ID</DialogTitle>
           <DialogDescription>
-            Enter your UPI ID. This will be used for your payouts.
+            Enter your UPI details. This will be used for your payouts.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John Doe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="upiId"
