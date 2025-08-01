@@ -1,7 +1,8 @@
+
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
-import { useEffect, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { updateProfile, type ProfileFormState } from '@/lib/actions';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,7 +40,7 @@ function SubmitButton() {
 }
 
 export default function PersonalInfoPage() {
-  const [state, formAction] = useFormState(updateProfile, initialState);
+  const [state, formAction] = useActionState(updateProfile, initialState);
   const { toast } = useToast();
   const [avatarPreview, setAvatarPreview] = useState<string | null>(
     'https://placehold.co/100x100.png'

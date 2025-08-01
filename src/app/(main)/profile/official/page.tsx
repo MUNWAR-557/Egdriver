@@ -1,7 +1,8 @@
+
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
-import { useEffect } from 'react';
+import { useFormStatus } from 'react-dom';
+import { useActionState, useEffect } from 'react';
 import { updateProfile, type ProfileFormState } from '@/lib/actions';
 import { Button } from '@/components/ui/button';
 import {
@@ -37,7 +38,7 @@ function SubmitButton() {
 }
 
 export default function OfficialInfoPage() {
-  const [state, formAction] = useFormState(updateProfile, initialState);
+  const [state, formAction] = useActionState(updateProfile, initialState);
   const { toast } = useToast();
 
   useEffect(() => {
