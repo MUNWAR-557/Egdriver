@@ -42,8 +42,9 @@ export function OrderFilter({
             <Button
             key={status}
             variant="ghost"
+            size="sm"
             className={cn(
-                'h-8 px-3 text-sm shrink-0',
+                'h-8 px-3 shrink-0',
                 activeStatus === status
                 ? 'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground'
                 : 'text-foreground/80 hover:bg-accent hover:text-accent-foreground'
