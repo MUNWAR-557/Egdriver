@@ -34,7 +34,7 @@ export function OrderFilter({
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2 rounded-md bg-muted p-1">
+    <div className="inline-flex flex-wrap items-center gap-2 rounded-md bg-muted p-1">
       {statuses.map((status) => (
         <Button
           key={status}
@@ -53,3 +53,4 @@ export function OrderFilter({
     </div>
   );
 }
+
