@@ -80,11 +80,7 @@ export default function MainLayout({
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-            </SidebarMenu>
-          </SidebarContent>
-          <SidebarFooter className="p-4 flex flex-col gap-2">
-            <SidebarMenu>
-               <SidebarMenuItem>
+                <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
                     tooltip={{
@@ -100,6 +96,8 @@ export default function MainLayout({
                   </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>
+          </SidebarContent>
+          <SidebarFooter className="p-4 flex flex-col gap-2">
             <div className="flex items-center gap-3">
               <Avatar>
                 <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
