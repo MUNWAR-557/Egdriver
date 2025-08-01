@@ -145,21 +145,21 @@ export default function OrdersPage() {
   return (
     <div className="p-4 sm:p-6">
       <div className="flex flex-col gap-4 mb-6">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-start">
             <h2 className="text-2xl font-bold tracking-tight">Your Orders</h2>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center space-x-2">
-                <Switch id="online-status" checked={isOnline} onCheckedChange={handleOnlineToggle} />
-                <Label htmlFor="online-status" className="text-sm font-medium">
-                  {isOnline ? 'Online' : 'Offline'}
-                </Label>
-              </div>
+            <div className="flex flex-col items-end gap-2">
               <div className="flex items-center gap-2">
                  <Avatar className="h-8 w-8">
                   <AvatarImage src="https://placehold.co/100x100.png" alt="Driver" data-ai-hint="driver avatar" />
                   <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
-                <span className="text-sm font-medium hidden sm:inline">John Doe</span>
+                <span className="text-sm font-medium">John Doe</span>
+              </div>
+               <div className="flex items-center space-x-2">
+                <Switch id="online-status" checked={isOnline} onCheckedChange={handleOnlineToggle} />
+                <Label htmlFor="online-status" className="text-sm font-medium">
+                  {isOnline ? 'Online' : 'Offline'}
+                </Label>
               </div>
             </div>
         </div>
