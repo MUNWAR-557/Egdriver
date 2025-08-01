@@ -60,6 +60,16 @@ export default function SignupPage() {
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     mode: 'onChange',
+    defaultValues: {
+      fullName: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
+      aadharNumber: '',
+      drivingLicense: undefined,
+      profilePhoto: undefined,
+    },
   });
 
   const { handleSubmit, trigger } = form;
@@ -178,7 +188,7 @@ export default function SignupPage() {
                 <FormField
                   control={form.control}
                   name="drivingLicense"
-                  render={({ field: { onChange, ...props } }) => (
+                  render={({ field: { onChange, value, ...props } }) => (
                     <FormItem>
                       <FormLabel>Driving License (Image)</FormLabel>
                       <FormControl>
@@ -204,7 +214,7 @@ export default function SignupPage() {
                 <FormField
                   control={form.control}
                   name="profilePhoto"
-                  render={({ field: { onChange, ...props } }) => (
+                  render={({ field: { onChange, value, ...props } }) => (
                     <FormItem>
                       <FormLabel>Your Photo</FormLabel>
                       <FormControl>
