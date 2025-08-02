@@ -124,7 +124,7 @@ function MainLayoutContent({
           <SidebarInset className="bg-background">
             <header className="sticky top-0 z-10 border-b bg-background">
               <div className="flex h-14 items-center gap-4 px-4 sm:px-6">
-                <SidebarTrigger className="md:hidden bg-green-500 text-white hover:bg-green-600" />
+                <SidebarTrigger className="md:hidden hover:bg-green-500 hover:text-white" />
                 <div className="flex-1 md:hidden">
                   <Link href="/dashboard" className="flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-accent text-sidebar-accent-foreground">
