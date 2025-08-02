@@ -62,7 +62,7 @@ export default function LoginPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">
+        <CardTitle>
           {step === 'phone' ? 'Welcome Back!' : 'Enter OTP'}
         </CardTitle>
         <CardDescription>

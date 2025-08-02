@@ -10,7 +10,7 @@ import {
   Car,
   FileText,
 } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 export default function ProfileLayout({
   children,
@@ -28,24 +28,25 @@ export default function ProfileLayout({
 
   return (
     <div className="flex flex-col gap-6 p-4 sm:p-6">
-       <div className="overflow-x-auto">
-        <nav className="flex items-center space-x-2 md:space-x-4 lg:space-x-6 border-b">
+       <ScrollArea className="w-full whitespace-nowrap border-b">
+        <nav className="flex w-max items-center gap-x-2 sm:gap-x-4 lg:gap-x-6">
             {menuItems.map((item) => (
             <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center shrink-0 px-3 py-2 text-sm font-medium rounded-t-md transition-colors ${
+                className={`flex items-center shrink-0 px-3 py-2 text-sm font-medium transition-colors ${
                 pathname === item.href || (item.href === '/profile/personal' && pathname === '/profile')
                     ? 'border-b-2 border-primary text-primary'
                     : 'text-muted-foreground hover:text-primary'
                 }`}
             >
                 <item.icon className="mr-2 h-4 w-4" />
-                <span className="whitespace-nowrap">{item.label}</span>
+                <span>{item.label}</span>
             </Link>
             ))}
         </nav>
-      </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
       <div>{children}</div>
     </div>
   );

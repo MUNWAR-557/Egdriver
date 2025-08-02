@@ -189,14 +189,14 @@ export default function OrdersPage() {
            filteredOrders.map((order) => {
              return (
                <Card key={order.id} className="flex flex-col text-sm">
-                 <CardHeader className="p-4">
+                 <CardHeader>
                    <div className="flex justify-between items-start">
-                     <CardTitle className="text-base">{order.id}</CardTitle>
+                     <CardTitle>{order.id}</CardTitle>
                      <OrderStatusBadge status={order.status} />
                    </div>
-                   <CardDescription className="text-xs pt-1">{order.deliveryAddress}</CardDescription>
+                   <CardDescription>{order.deliveryAddress}</CardDescription>
                  </CardHeader>
-                 <CardContent className="flex-grow space-y-3 p-4 pt-0">
+                 <CardContent className="flex-grow space-y-3">
                    <div className="space-y-2 text-xs text-muted-foreground">
                      <div className="flex items-start gap-2">
                        <MapPin className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
@@ -228,7 +228,7 @@ export default function OrdersPage() {
                      />
                    </div>
                  </CardContent>
-                 <CardFooter className="flex flex-col items-stretch p-4 pt-0">
+                 <CardFooter className="flex flex-col items-stretch">
                    <div className="text-center mb-2">
                      <p className="text-xs text-muted-foreground">
                        Earnings

@@ -78,14 +78,14 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Earnings Overview</CardTitle>
             <CardDescription>Your earnings over the last 6 months.</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <ChartContainer config={chartConfig} className="h-[250px] sm:h-[300px] w-full">
               <BarChart accessibilityLayer data={chartData}>
                 <CartesianGrid vertical={false} />
                 <XAxis
@@ -93,12 +93,15 @@ export default function DashboardPage() {
                   tickLine={false}
                   tickMargin={10}
                   axisLine={false}
+                  stroke="hsl(var(--muted-foreground))"
+                  tickFormatter={(value) => value.slice(0, 3)}
                 />
                 <YAxis
                   tickLine={false}
                   axisLine={false}
                   tickMargin={10}
-                  tickFormatter={(value) => `₹${value}`}
+                  stroke="hsl(var(--muted-foreground))"
+                  tickFormatter={(value) => `₹${value / 1000}k`}
                 />
                 <Tooltip cursor={false} content={<ChartTooltipContent formatter={(value) => `₹${value.toLocaleString()}`} />} />
                 <Bar dataKey="earnings" fill="var(--color-earnings)" radius={8} />
@@ -118,7 +121,7 @@ export default function DashboardPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Order ID</TableHead>
-                    <TableHead>Date</TableHead>
+                    <TableHead className="hidden sm:table-cell">Date</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="text-right">Earnings</TableHead>
                   </TableRow>
@@ -127,7 +130,7 @@ export default function DashboardPage() {
                   {deliveryHistory.map((delivery) => (
                     <TableRow key={delivery.id}>
                       <TableCell className="font-medium">{delivery.id}</TableCell>
-                      <TableCell>{delivery.date}</TableCell>
+                      <TableCell className="hidden sm:table-cell">{delivery.date}</TableCell>
                       <TableCell>
                         <Badge variant="outline">{delivery.status}</Badge>
                       </TableCell>
@@ -152,24 +155,20 @@ export default function DashboardPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="hidden sm:table-cell">Order ID</TableHead>
+                  <TableHead className="w-[100px]">Order ID</TableHead>
                   <TableHead>Date</TableHead>
-                  <TableHead className="hidden md:table-cell">Pickup</TableHead>
-                  <TableHead>Delivery</TableHead>
-                  <TableHead className="hidden lg:table-cell">Items</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden md:table-cell">Delivery</TableHead>
+                  <TableHead className="hidden lg:table-cell">Status</TableHead>
                   <TableHead className="text-right">Earnings</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {fullDeliveryHistory.map((delivery) => (
                   <TableRow key={delivery.id}>
-                    <TableCell className="font-medium hidden sm:table-cell">{delivery.id}</TableCell>
+                    <TableCell className="font-medium">{delivery.id}</TableCell>
                     <TableCell>{delivery.date}</TableCell>
-                    <TableCell className="hidden md:table-cell">{delivery.pickupLocation}</TableCell>
-                    <TableCell>{delivery.deliveryAddress}</TableCell>
-                    <TableCell className="hidden lg:table-cell">{delivery.orderItems}</TableCell>
-                    <TableCell>
+                    <TableCell className="hidden md:table-cell">{delivery.deliveryAddress}</TableCell>
+                    <TableCell className="hidden lg:table-cell">
                       <Badge variant={delivery.status === 'Delivered' ? 'default' : 'secondary'} className={delivery.status === 'Delivered' ? 'bg-green-500 text-white' : ''}>
                         {delivery.status}
                       </Badge>
