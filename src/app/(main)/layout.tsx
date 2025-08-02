@@ -55,7 +55,7 @@ function MainLayoutContent({
     ];
   
     return (
-        <div className="flex min-h-screen">
+        <div className="flex min-h-screen ">
           <Sidebar collapsible="icon" className="border-r border-sidebar-border">
             <SidebarHeader className="p-4">
               <Link href="/dashboard" className="flex items-center gap-2">
