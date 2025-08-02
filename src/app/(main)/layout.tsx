@@ -59,7 +59,7 @@ function MainLayoutContent({
           <Sidebar collapsible="icon" className="border-r border-sidebar-border">
             <SidebarHeader className="p-4">
               <Link href="/dashboard" className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sidebar-accent text-sidebar-accent-foreground">
                   <Zap className="h-5 w-5" />
                 </div>
                 <span className="font-headline text-lg font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
@@ -124,10 +124,10 @@ function MainLayoutContent({
           <SidebarInset className="bg-background">
             <header className="sticky top-0 z-10 border-b bg-background">
               <div className="flex h-14 items-center gap-4 px-4 sm:px-6">
-                <SidebarTrigger className="md:hidden" />
+                <SidebarTrigger className="md:hidden bg-green-500 text-white hover:bg-green-600" />
                 <div className="flex-1 md:hidden">
                   <Link href="/dashboard" className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-accent text-sidebar-accent-foreground">
                       <Zap className="h-5 w-5" />
                     </div>
                     <span className="font-headline text-xl font-bold text-primary">
