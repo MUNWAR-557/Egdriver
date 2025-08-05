@@ -3,7 +3,7 @@
 
 import { useFormStatus } from 'react-dom';
 import { useActionState, useEffect } from 'react';
-import { updateProfile, type ProfileFormState } from '@/lib/actions';
+import { updateOfficialInfo, type FormState } from '@/lib/actions';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -18,7 +18,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Save, Loader2 } from 'lucide-react';
 
-const initialState: ProfileFormState = {
+const initialState: FormState = {
   message: '',
   success: false,
 };
@@ -38,7 +38,7 @@ function SubmitButton() {
 }
 
 export default function OfficialInfoPage() {
-  const [state, formAction] = useActionState(updateProfile, initialState);
+  const [state, formAction] = useActionState(updateOfficialInfo, initialState);
   const { toast } = useToast();
 
   useEffect(() => {

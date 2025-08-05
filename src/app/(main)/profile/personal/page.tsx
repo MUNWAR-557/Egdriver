@@ -3,7 +3,7 @@
 
 import { useActionState, useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { updateProfile, type ProfileFormState } from '@/lib/actions';
+import { updatePersonalInfo, type FormState } from '@/lib/actions';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,7 +20,7 @@ import { Save, Loader2, Upload } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 
-const initialState: ProfileFormState = {
+const initialState: FormState = {
   message: '',
   success: false,
 };
@@ -40,7 +40,7 @@ function SubmitButton() {
 }
 
 export default function PersonalInfoPage() {
-  const [state, formAction] = useActionState(updateProfile, initialState);
+  const [state, formAction] = useActionState(updatePersonalInfo, initialState);
   const { toast } = useToast();
   const [avatarPreview, setAvatarPreview] = useState<string | null>(
     'https://placehold.co/100x100.png'
@@ -96,7 +96,7 @@ export default function PersonalInfoPage() {
                    <Label htmlFor="profilePic" className="cursor-pointer">
                     <Button asChild variant="outline">
                       <div>
-                        <Upload className="mr-2" />
+                        <Upload className="mr-2 h-4 w-4" />
                         Upload
                       </div>
                     </Button>
