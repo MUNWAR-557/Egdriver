@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useActionState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -24,50 +24,77 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useFormStatus } from 'react-dom';
+import { signup, type SignupFormState } from '@/lib/actions';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 const profileSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   phone: z.string().regex(/^\d{10}$/, 'Must be a valid 10-digit phone number'),
-  drivingLicense: z.custom<File>((v) => v instanceof File, {
-    message: 'Driving license is required.',
-  }),
-  aadharNumber: z
-    .string()
-    .regex(/^\d{12}$/, 'Must be a valid 12-digit Aadhar number'),
-  profilePhoto: z.custom<File>((v) => v instanceof File, {
-    message: 'Profile photo is required.',
-  }),
+  drivingLicense: z.instanceof(File).refine(file => file.size > 0, 'Driving license is required.'),
+  aadharNumber: z.string().regex(/^\d{12}$/, 'Must be a valid 12-digit Aadhar number'),
+  profilePhoto: z.instanceof(File).refine(file => file.size > 0, 'Profile photo is required.'),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 const steps = [
-  { id: 1, title: 'Personal Details', fields: ['fullName', 'email', 'phone'] },
-  { id: 2, title: 'Document Upload', fields: ['drivingLicense', 'aadharNumber', 'profilePhoto'] },
+  { id: 1, title: 'Personal Details', fields: ['fullName', 'email', 'phone'] as const },
+  { id: 2, title: 'Document Upload', fields: ['drivingLicense', 'aadharNumber', 'profilePhoto'] as const },
 ];
+
+const initialState: SignupFormState = {
+  message: '',
+  success: false,
+};
+
+function SubmitButton() {
+    const { pending } = useFormStatus();
+    return (
+      <Button type="submit" disabled={pending}>
+        {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        Submit Application
+      </Button>
+    );
+}
 
 export default function SignupPage() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [state, formAction] = useActionState(signup, initialState);
+  const { toast } = useToast();
+  const router = useRouter();
+
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     mode: 'onChange',
-    defaultValues: {
-      fullName: '',
-      email: '',
-      phone: '',
-      aadharNumber: '',
-      drivingLicense: undefined,
-      profilePhoto: undefined,
-    },
   });
 
-  const { handleSubmit, trigger } = form;
+  const { handleSubmit, trigger, formState: { errors } } = form;
+
+  useEffect(() => {
+    if (state.message) {
+      if(state.success) {
+        toast({
+            title: 'Success!',
+            description: state.message,
+        });
+        router.push('/dashboard');
+      } else {
+        toast({
+            title: 'Error',
+            description: state.message,
+            variant: 'destructive',
+        });
+        // You can also populate form errors from state.errors here if needed
+      }
+    }
+  }, [state, toast, router]);
 
   const handleNext = async () => {
     const fields = steps[currentStep].fields;
-    const output = await trigger(fields as any, { shouldFocus: true });
+    const output = await trigger(fields, { shouldFocus: true });
     if (!output) return;
 
     if (currentStep < steps.length - 1) {
@@ -81,17 +108,6 @@ export default function SignupPage() {
     }
   };
 
-  const onSubmit = (data: ProfileFormData) => {
-    console.log('Form data submitted:', data);
-    setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-        setIsSubmitting(false);
-        // Redirect to dashboard or a "pending approval" page
-        window.location.href = '/dashboard';
-    }, 2000);
-  };
-
   return (
     <FormProvider {...form}>
       <Card>
@@ -103,7 +119,7 @@ export default function SignupPage() {
           <Progress value={((currentStep + 1) / steps.length) * 100} className="mt-2" />
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form action={formAction} className="space-y-6">
             {currentStep === 0 && (
               <div className="space-y-4">
                 <FormField
@@ -204,10 +220,7 @@ export default function SignupPage() {
                   Next <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               ) : (
-                <Button type="submit" disabled={isSubmitting}>
-                   {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Submit Application
-                </Button>
+                <SubmitButton />
               )}
             </div>
              <div className="mt-4 text-center text-sm">
