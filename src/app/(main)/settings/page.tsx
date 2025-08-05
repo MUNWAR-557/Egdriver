@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Button } from '@/components/ui/button';
+import { DeactivateAccountDialog } from '@/components/settings/deactivate-account-dialog';
 import { ThemeToggle } from '@/components/settings/theme-toggle';
 
 export default function SettingsPage() {
@@ -61,7 +61,7 @@ export default function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-             <Button variant="destructive">Deactivate Account</Button>
+             <DeactivateAccountDialog />
               <p className="text-sm text-muted-foreground">
                 Deactivating your account will permanently disable access. This action cannot be undone.
               </p>
